@@ -7,6 +7,7 @@ init();
 function changeActivePlayer() {
     document.querySelector('.player-panel-0').classList.toggle('active');
     document.querySelector('.player-panel-1').classList.toggle('active');
+    document.getElementById('current-' + activePlayer).textContent = 0;
     activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
     previousDiceRoll = 0;
     roundscore = 0;
@@ -47,9 +48,11 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
             roundscore += dice;
             document.getElementById('current-' + activePlayer).textContent = roundscore;
             previousDiceRoll = dice;
+        } else if( dice === 6 && dice === previousDiceRoll ) {
+            scores[activePlayer] = 0;
+            document.getElementById('score-' + activePlayer).textContent = 0;
+            changeActivePlayer();
         } else {
-            roundscore = 0;
-            document.getElementById('current-' + activePlayer).textContent = roundscore;
             changeActivePlayer();
         }
         
@@ -60,7 +63,6 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     if(isGameActive) {
         scores[activePlayer] += roundscore;
         document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
-        //roundscore = 0;
         document.getElementById('current-' + activePlayer).textContent = 0;
 
         if( scores[activePlayer] < 100 ) {
